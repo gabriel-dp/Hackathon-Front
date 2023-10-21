@@ -18,7 +18,7 @@ export const MapContainer = styled.div`
 `;
 
 interface OpenCloseMenuI {
-	isOpen: string;
+	$isOpen: string;
 }
 
 export const MenuContainer = styled.div<OpenCloseMenuI>`
@@ -37,7 +37,7 @@ export const MenuContainer = styled.div<OpenCloseMenuI>`
 	gap: 2rem;
 
 	position: absolute;
-	top: ${(props) => (props.isOpen == "true" ? "20%" : "calc(100% - 5rem)")};
+	top: ${(props) => (props.$isOpen == "true" ? "20%" : "calc(100% - 5rem)")};
 	bottom: 0;
 	left: 0;
 
@@ -69,7 +69,7 @@ export const OpenCloseMenu = styled.button<OpenCloseMenuI>`
 		font-size: 1.5rem;
 		color: ${(props) => props.theme.gray};
 		transition: all ease-in-out 0.5s;
-		transform: ${(props) => (props.isOpen == "true" ? "rotate(180deg)" : "rotate(0deg)")};
+		transform: ${(props) => (props.$isOpen == "true" ? "rotate(180deg)" : "rotate(0deg)")};
 	}
 `;
 
