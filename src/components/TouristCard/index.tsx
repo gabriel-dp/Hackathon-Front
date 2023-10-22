@@ -11,7 +11,7 @@ interface CardI {
 	dateEnd?: string;
 }
 
-export default function EventCard(props: CardI) {
+export default function TouristCard(props: CardI) {
 	return (
 		<CardContainer>
 			<div className="image-wrapper">

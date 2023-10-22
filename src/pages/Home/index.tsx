@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { MdKeyboardArrowUp } from "react-icons/md";
 
-import { City, Event, Spot } from "@/types/types";
 import { useFetchData } from "@/hooks/useFetchData";
-import DropdownOptions from "@/components/DropdownOptions";
+import { City, Event, Spot } from "@/types/types";
 import { MenuEntity, convertToMenuEntity } from "@/components/DropdownOptions/types";
-
-import { CategoryCards, HomeContainer, MenuContainer, OpenCloseMenu } from "./styles";
+import DropdownOptions from "@/components/DropdownOptions";
 import TouristCard from "@/components/TouristCard";
 import Map from "@/components/Map";
+
+import { CategoryCards, HomeContainer, MenuContainer, OpenCloseMenu } from "./styles";
 
 export default function Home() {
 	const [isOpen, setIsOpen] = useState(false);
@@ -24,8 +24,6 @@ export default function Home() {
 
 	const toggleOpen = () => setIsOpen((isOpen) => !isOpen);
 
-	const citiesMenu = dataCities?.map((city) => convertToMenuEntity(city, city.name));
-
 	return (
 		<HomeContainer>
 			<Map />
@@ -37,7 +35,7 @@ export default function Home() {
 					<div className="search-wrapper">
 						<DropdownOptions
 							placeholder="Nome da cidade..."
-							items={citiesMenu ?? []}
+							items={dataCities ? dataCities.map((city) => convertToMenuEntity(city, city.name)) : []}
 							loading={statusCities != "success"}
 							selected={city}
 							setSelected={setCity}
@@ -53,7 +51,7 @@ export default function Home() {
 									{dataEvents != null && dataEvents.length > 0 ? (
 										<div className="carrousel">
 											{statusEvents != "loading" &&
-												dataEvents?.map((event) => (
+												dataEvents.map((event) => (
 													<TouristCard
 														key={event.id}
 														name={event.name}
@@ -73,7 +71,7 @@ export default function Home() {
 									{dataSpots != null && dataSpots.length > 0 ? (
 										<div className="carrousel">
 											{statusSpots != "loading" &&
-												dataSpots?.map((spot) => (
+												dataSpots.map((spot) => (
 													<TouristCard key={spot.id} name={spot.name} city={spot.city} imageUrl={spot.imageUrl} />
 												))}
 										</div>
