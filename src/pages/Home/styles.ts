@@ -33,26 +33,26 @@ export const MenuContainer = styled.div<OpenCloseMenuI>`
 	bottom: 0;
 	left: 0;
 
+	.search-wrapper {
+		min-height: 2.5rem;
+		width: min(100%, 35rem);
+
+		.search {
+			border: none;
+		}
+	}
+
 	.content {
 		width: 100%;
 		height: 100%;
+		overflow-y: scroll;
 
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		gap: 2rem;
 
-		.search-wrapper {
-			min-height: 2.5rem;
-			width: min(100%, 35rem);
-
-			.search {
-				border: none;
-			}
-		}
-
 		.content-wrapper {
-			overflow-y: scroll;
 			width: min(100%, 50rem);
 
 			display: flex;
@@ -166,6 +166,67 @@ export const LocationButton = styled.button`
 
 	.icon {
 		font-size: 1.75rem;
+		color: ${(props) => props.theme.primaryText};
+	}
+`;
+
+export const FilterButton = styled.button`
+	width: 3.5rem;
+	aspect-ratio: 1;
+	border-radius: 100rem;
+	border: 3px solid ${(props) => props.theme.primaryText};
+	background-color: ${(props) => props.theme.primary};
+	cursor: pointer;
+	transition: all ease 0.25s;
+	overflow: hidden;
+
+	z-index: 5rem;
+	position: absolute;
+	bottom: 10rem;
+	right: 1rem;
+
+	.a {
+		width: 100%;
+		height: 100%;
+	}
+
+	&:hover {
+		background-color: ${(props) => props.theme.highlight};
+	}
+
+	.icon {
+		font-size: 1.75rem;
+		color: ${(props) => props.theme.primaryText};
+	}
+`;
+
+export const FilterContainer = styled.div`
+	border-radius: 1rem;
+	overflow: hidden;
+	background-color: ${(props) => props.theme.white};
+	position: absolute;
+	right: 1rem;
+	bottom: 14rem;
+	display: flex;
+	flex-direction: column;
+	filter: drop-shadow(0 0 1rem #00000033);
+`;
+
+interface FilterElementI {
+	$isSelected: string;
+}
+
+export const FilterElement = styled.button<FilterElementI>`
+	cursor: pointer;
+	border: none;
+	background-color: ${(props) => (props.$isSelected == "true" ? props.theme.primary : props.theme.white)};
+	color: ${(props) => (props.$isSelected == "true" ? props.theme.primaryText : props.theme.text)};
+	color: ${(props) => (props.$isSelected == "true" ? props.theme.primaryText : props.theme.text)};
+	padding: 0.75rem 1rem;
+	transition: all ease 0.25s;
+
+	&:hover {
+		background-color: ${(props) => props.theme.primary};
 		color: ${(props) => props.theme.primaryText};
 	}
 `;

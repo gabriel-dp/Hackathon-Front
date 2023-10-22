@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { MdKeyboardArrowUp, MdPerson, MdLocationOn } from "react-icons/md";
+import { MdKeyboardArrowUp, MdPerson, MdLocationOn, MdOutlineFilterAlt } from "react-icons/md";
 
 import { useFetchData } from "@/hooks/useFetchData";
 import { City, Event, Spot } from "@/types/types";
@@ -13,7 +13,17 @@ import useLocalStorage from "@/hooks/useLocalStorage";
 
 import config from "@/data/config.json";
 
-import { CategoryCards, HomeContainer, LocationButton, MenuContainer, OpenCloseMenu, UserButton } from "./styles";
+import {
+	CategoryCards,
+	FilterButton,
+	FilterContainer,
+	FilterElement,
+	HomeContainer,
+	LocationButton,
+	MenuContainer,
+	OpenCloseMenu,
+	UserButton,
+} from "./styles";
 
 const generateHeaderUser = (userToken: string) => ({
 	method: "POST",
@@ -28,7 +38,6 @@ export default function Home() {
 	const [selectedCity, setSelectedCity] = useState<MenuEntity | null>(null);
 	const [center, setCenter] = useState<[number, number]>(config.defaultPosition as [number, number]);
 	const [location, setLocation] = useState<[number, number] | null>(null);
-	const zoom = config.defaultZoom;
 
 	const { data: dataCities, status: statusCities } = useFetchData<City[]>(
 		`${import.meta.env.VITE_API_URL}/cidades/nome`
@@ -49,7 +58,7 @@ export default function Home() {
 		}
 	}, [selectedCity, dataCities]);
 
-	async function handleButtonClick() {
+	async function handleLocationButtonClick() {
 		const coords = await getGeolocationCoords();
 		if (coords.length === 2) {
 			setLocation(coords);
@@ -58,6 +67,19 @@ export default function Home() {
 			return;
 		}
 	}
+
+	const [selectedFilter, setSelectedFilter] = useState(-1);
+	const [filterOpen, setFilterOpen] = useState(false);
+	const toggleFilter = () => setFilterOpen((filterOpen) => !filterOpen);
+	const filters = useMemo(() => ["Alimentação", "Atração", "Hospedagem", "Natureza", "Religioso"], []);
+	const [selectedSpots, setSelectedSpots] = useState<Spot[]>([]);
+
+	useEffect(() => {
+		if (dataSpots) {
+			if (selectedFilter == -1) setSelectedSpots(dataSpots);
+			else setSelectedSpots(dataSpots.filter((spot) => spot.type == filters[selectedFilter]));
+		}
+	}, [selectedFilter, filters, dataSpots]);
 
 	useEffect(() => {
 		if (location && dataSpots) {
@@ -84,15 +106,27 @@ export default function Home() {
 
 	return (
 		<HomeContainer>
-			<Map center={center} zoom={zoom} cities={dataCities ?? []} spots={dataSpots ?? []} />
+			<Map center={center} zoom={config.defaultZoom} cities={dataCities ?? []} spots={selectedSpots} />
 			<UserButton>
 				<Link to="/user">
 					<MdPerson className="icon" />
 				</Link>
 			</UserButton>
-			<LocationButton onClick={handleButtonClick}>
+			<LocationButton onClick={handleLocationButtonClick}>
 				<MdLocationOn className="icon" />
 			</LocationButton>
+			<FilterButton onClick={toggleFilter}>
+				<MdOutlineFilterAlt className="icon" />
+			</FilterButton>
+			{filterOpen && (
+				<FilterContainer>
+					{filters.map((filter, i) => (
+						<FilterElement key={i} $isSelected={(i == selectedFilter).toString()} onClick={() => setSelectedFilter(i)}>
+							{filter}
+						</FilterElement>
+					))}
+				</FilterContainer>
+			)}
 			<MenuContainer $isOpen={isOpen.toString()}>
 				<OpenCloseMenu $isOpen={isOpen.toString()} onClick={toggleOpen}>
 					<MdKeyboardArrowUp className="icon" />

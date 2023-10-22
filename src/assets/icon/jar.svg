@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+  <path d="M 475.5 291.696 Q 509.58 232.317 543.66 291.696 L 737.657 629.703 Q 771.737 689.082 703.576 689.082 L 315.584 689.082 Q 247.423 689.082 281.503 629.703 Z" style="transform-origin: 379.79px 362.772px; fill: rgb(238, 113, 64);" transform="matrix(-1, 0, 0, -1, 0, 0)" bx:shape="triangle 247.423 232.317 524.314 456.765 0.5 0.13 1@cc4498f8"/>
+  <g transform="matrix(1, 0, 0, 1, -3.921501, 0)">
+    <rect x="172.911" y="157.666" width="162.021" height="174.216" style="fill: rgb(255, 255, 255);" rx="42.683" ry="42.683"/>
+    <g transform="matrix(1, 0, 0, 1, 7.839721, -12.195122)">
+      <rect x="187.283" y="102.369" width="117.596" height="29.617" style="fill: rgb(255, 255, 255);" rx="18.293" ry="18.293"/>
+      <rect x="214.722" y="112.369" width="62.718" height="92.334" style="fill: rgb(255, 255, 255);"/>
+    </g>
+  </g>
+</svg>
