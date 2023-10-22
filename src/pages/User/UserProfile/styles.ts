@@ -106,5 +106,13 @@ export const LogoutButton = styled.button`
 	background-color: ${(props) => props.theme.primary};
 	padding: 1rem;
 	color: ${(props) => props.theme.primaryText};
+	border: none;
+	border-radius: 1rem;
+	transition: all ease 0.25s;
+	cursor: pointer;
+
+	&:hover {
+		background-color: ${(props) => props.theme.highlight};
+	}
 `;
 

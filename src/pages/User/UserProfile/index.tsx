@@ -69,8 +69,8 @@ export default function UserProfile(props: UserProfileI) {
 									</AchievmentCard>
 								))}
 					</AchievmentsContainer>
-					<LogoutButton onClick={props.logout}>Sair da conta</LogoutButton>
 				</div>
+				<LogoutButton onClick={props.logout}>Sair da conta</LogoutButton>
 			</div>
 		</UserContainer>
 	);
