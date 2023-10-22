@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { MdKeyboardArrowUp, MdPerson } from "react-icons/md";
+import { MdKeyboardArrowUp, MdPerson, MdLocationOn } from "react-icons/md";
 
 import { useFetchData } from "@/hooks/useFetchData";
 import { City, Event, Spot } from "@/types/types";
@@ -8,15 +8,26 @@ import { MenuEntity, convertToMenuEntity } from "@/components/DropdownOptions/ty
 import DropdownOptions from "@/components/DropdownOptions";
 import TouristCard from "@/components/TouristCard";
 import Map from "@/components/Map";
+import { getGeolocationCoords, isDistanceLowerThan } from "@/utils/location";
+import useLocalStorage from "@/hooks/useLocalStorage";
 
-import config from "@/data/config.json"
+import config from "@/data/config.json";
 
-import { CategoryCards, HomeContainer, MenuContainer, OpenCloseMenu, UserButton } from "./styles";
+import { CategoryCards, HomeContainer, LocationButton, MenuContainer, OpenCloseMenu, UserButton } from "./styles";
+
+const generateHeaderUser = (userToken: string) => ({
+	method: "POST",
+	headers: {
+		token: userToken,
+	},
+});
 
 export default function Home() {
+	const [auth] = useLocalStorage("auth", { token: null });
 	const [isOpen, setIsOpen] = useState(false);
 	const [selectedCity, setSelectedCity] = useState<MenuEntity | null>(null);
-	const [center, setCenter] = useState<[number, number]>(config.defaultPosition as [number,number]);
+	const [center, setCenter] = useState<[number, number]>(config.defaultPosition as [number, number]);
+	const [location, setLocation] = useState<[number, number] | null>(null);
 	const zoom = config.defaultZoom;
 
 	const { data: dataCities, status: statusCities } = useFetchData<City[]>(
@@ -29,6 +40,8 @@ export default function Home() {
 		`${import.meta.env.VITE_API_URL}/eventos/${selectedCity ? `cidade/${selectedCity.id}` : ""}`
 	);
 
+	const toggleOpen = () => setIsOpen((isOpen) => !isOpen);
+
 	useEffect(() => {
 		if (dataCities && selectedCity) {
 			const city = dataCities.find((city) => city.id == selectedCity.id);
@@ -36,7 +49,38 @@ export default function Home() {
 		}
 	}, [selectedCity, dataCities]);
 
-	const toggleOpen = () => setIsOpen((isOpen) => !isOpen);
+	async function handleButtonClick() {
+		const coords = await getGeolocationCoords();
+		if (coords.length === 2) {
+			setLocation(coords);
+		} else {
+			console.error("GEOLOCATION UNAVALIABLE");
+			return;
+		}
+	}
+
+	useEffect(() => {
+		if (location && dataSpots) {
+			setCenter(location);
+			if (auth.token) {
+				dataSpots.forEach((spot) => {
+					if (isDistanceLowerThan(location, [spot.coords.lat, spot.coords.lon], 0.0025)) {
+						console.log(location, [spot.coords.lat, spot.coords.lon]);
+						fetch(`${import.meta.env.VITE_API_URL}/pontos/registrar/${spot.id}`, generateHeaderUser(auth.token))
+							.then((response) => {
+								if (!response.ok) {
+									throw new Error(`Request failed with status: ${response.status}`);
+								}
+								if (response.status == 201) window.alert(`Parabéns por visitar ${spot.name}`);
+							})
+							.catch((error) => {
+								console.log(error);
+							});
+					}
+				});
+			}
+		}
+	}, [location, dataSpots, auth]);
 
 	return (
 		<HomeContainer>
@@ -46,6 +90,9 @@ export default function Home() {
 					<MdPerson className="icon" />
 				</Link>
 			</UserButton>
+			<LocationButton onClick={handleButtonClick}>
+				<MdLocationOn className="icon" />
+			</LocationButton>
 			<MenuContainer $isOpen={isOpen.toString()}>
 				<OpenCloseMenu $isOpen={isOpen.toString()} onClick={toggleOpen}>
 					<MdKeyboardArrowUp className="icon" />

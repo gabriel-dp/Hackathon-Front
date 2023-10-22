@@ -39,7 +39,7 @@ export default function UserAuth(props: UserAuthI) {
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 
-		const url = isSignUp ? import.meta.env.VITE_AUTH_URL : import.meta.env.VITE_AUTH_URL + "login";
+		const url = isSignUp ? import.meta.env.VITE_AUTH_URL + "register" : import.meta.env.VITE_AUTH_URL + "login";
 		fetch(
 			url,
 			isSignUp

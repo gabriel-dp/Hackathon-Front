@@ -35,7 +35,7 @@ export default function UserProfile(props: UserProfileI) {
 					<p className="title">Conquistas</p>
 					<AchievmentsContainer>
 						{dataAchievments?.map((achievment) => (
-							<AchievmentCard key={achievment.id} isComplete={achievment.isComplete.toString()}>
+							<AchievmentCard key={achievment.id} $isComplete={achievment.isComplete.toString()}>
 								{achievment.name}
 							</AchievmentCard>
 						))}

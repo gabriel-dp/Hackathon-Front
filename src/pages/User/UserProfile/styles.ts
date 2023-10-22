@@ -40,16 +40,16 @@ export const AchievmentsContainer = styled.div`
 `;
 
 interface AchievmentCardI {
-	isComplete: string;
+	$isComplete: string;
 }
 
 export const AchievmentCard = styled.div<AchievmentCardI>`
 	width: 100%;
 	padding: 1.25rem;
-	text-decoration: ${(props) => (props.isComplete == "true" ? "line-through" : "none")};
+	text-decoration: ${(props) => (props.$isComplete == "true" ? "line-through" : "none")};
 	background-color: ${(props) => props.theme.primary};
 	color: ${(props) => props.theme.primaryText};
 	border-radius: 1rem;
-	opacity: ${(props) => (props.isComplete == "true" ? "0.5" : "1")};
+	opacity: ${(props) => (props.$isComplete == "true" ? "0.5" : "1")};
 `;
 

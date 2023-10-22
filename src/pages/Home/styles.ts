@@ -140,3 +140,33 @@ export const UserButton = styled.button`
 	}
 `;
 
+export const LocationButton = styled.button`
+	width: 3.5rem;
+	aspect-ratio: 1;
+	border-radius: 100rem;
+	border: 3px solid ${(props) => props.theme.primaryText};
+	background-color: ${(props) => props.theme.primary};
+	cursor: pointer;
+	transition: all ease 0.25s;
+	overflow: hidden;
+
+	z-index: 5rem;
+	position: absolute;
+	bottom: 6rem;
+	right: 1rem;
+
+	.a {
+		width: 100%;
+		height: 100%;
+	}
+
+	&:hover {
+		background-color: ${(props) => props.theme.highlight};
+	}
+
+	.icon {
+		font-size: 1.75rem;
+		color: ${(props) => props.theme.primaryText};
+	}
+`;
+
