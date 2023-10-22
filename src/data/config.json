@@ -1,5 +1,6 @@
 {
     "cityZoom": 13,
     "defaultPosition": [-21.292437790634143, -44.17875644410556],
-    "defaultZoom": 9.3
+    "defaultZoom": 9.3,
+    "userZoom": 18
 }
