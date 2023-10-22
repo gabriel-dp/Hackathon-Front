@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useMap } from "react-leaflet";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import L from "leaflet";
 import { useMapEvents } from "react-leaflet";
@@ -52,7 +53,20 @@ function ZoomProvider(props: ZoomProviderI) {
 	return null;
 }
 
+interface SetCenter {
+	center: [number, number];
+}
+
+function SetCenter(props: SetCenter) {
+	const map = useMap();
+	useEffect(() => {
+		map.setView(props.center, 13);
+	}, [props.center, map]);
+	return null;
+}
+
 interface MapI {
+	center: [number, number];
 	cities: City[];
 	spots: Spot[];
 }
@@ -60,25 +74,22 @@ interface MapI {
 export default function Map(props: MapI) {
 	const [zoomLevel, setZoomLevel] = useState(18);
 
-	useEffect(() => {
-		console.log(zoomLevel);
-	}, [zoomLevel]);
-
 	return (
-		<MapContainer center={[-21.138599142642562, -44.26019280483018]} zoom={18}>
+		<MapContainer center={props.center} zoom={18}>
+			<SetCenter center={props.center} />
 			<ZoomProvider setZoomLevel={setZoomLevel} />
 			<TileLayer
 				attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 				url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 			/>
 			{zoomLevel < 13
-				? props.cities?.map((city) => (
+				? props.cities.map((city) => (
 						<Marker key={city.id} position={[city.coords.lat, city.coords.lon]} icon={icon["city"]}>
 							<Popup>{city.name}</Popup>
 						</Marker>
 				  ))
-				: props.spots?.map((spot) => (
-						<Marker key={spot.id} position={[spot.coords.lat, spot.coords.lon]} icon={icon["city"]}>
+				: props.spots.map((spot) => (
+						<Marker key={spot.id} position={[spot.coords.lat, spot.coords.lon]} icon={icon["church"]}>
 							<Popup>{spot.name}</Popup>
 						</Marker>
 				  ))}

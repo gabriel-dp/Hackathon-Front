@@ -8,14 +8,14 @@ interface FetchDataResponse<Data> {
 	status: FetchStatus;
 }
 
-export function useFetchData<Data>(url: string, options: object): FetchDataResponse<Data> {
+export function useFetchData<Data>(url: string, options?: object): FetchDataResponse<Data> {
 	const [data, setData] = useState<Data | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const [status, setStatus] = useState<FetchStatus>("idle");
 
 	useEffect(() => {
 		setStatus("loading");
-		fetch(url, options)
+		fetch(url, options ?? {})
 			.then((response) => {
 				if (!response.ok) {
 					throw new Error(`Request failed with status: ${response.status}`);

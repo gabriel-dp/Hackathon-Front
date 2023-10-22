@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { MdKeyboardArrowUp, MdPerson } from "react-icons/md";
 
@@ -13,23 +13,31 @@ import { CategoryCards, HomeContainer, MenuContainer, OpenCloseMenu, UserButton 
 
 export default function Home() {
 	const [isOpen, setIsOpen] = useState(false);
-	const [city, setCity] = useState<MenuEntity | null>(null);
+	const [selectedCity, setSelectedCity] = useState<MenuEntity | null>(null);
+	const [center, setCenter] = useState<[number, number]>([-21.138599142642562, -44.26019280483018]);
 
 	const { data: dataCities, status: statusCities } = useFetchData<City[]>(
-		`${import.meta.env.VITE_API_URL}/cidades/nome`,
-		{}
+		`${import.meta.env.VITE_API_URL}/cidades/nome`
 	);
-	const { data: dataSpots, status: statusSpots } = useFetchData<Spot[]>(`${import.meta.env.VITE_API_URL}/pontos`, {});
+	const { data: dataSpots, status: statusSpots } = useFetchData<Spot[]>(
+		`${import.meta.env.VITE_API_URL}/pontos/${selectedCity ? `cidade/${selectedCity.id}` : ""}`
+	);
 	const { data: dataEvents, status: statusEvents } = useFetchData<Event[]>(
-		`${import.meta.env.VITE_API_URL}/eventos/${city ? `cidade/${city.id}` : ""}`,
-		{}
+		`${import.meta.env.VITE_API_URL}/eventos/${selectedCity ? `cidade/${selectedCity.id}` : ""}`
 	);
+
+	useEffect(() => {
+		if (dataCities && selectedCity) {
+			const city = dataCities.find((city) => city.id == selectedCity.id);
+			if (city) setCenter([city.coords.lat, city.coords.lon]);
+		}
+	}, [selectedCity, dataCities]);
 
 	const toggleOpen = () => setIsOpen((isOpen) => !isOpen);
 
 	return (
 		<HomeContainer>
-			<Map cities={dataCities ?? []} spots={dataSpots ?? []} />
+			<Map center={center} cities={dataCities ?? []} spots={dataSpots ?? []} />
 			<UserButton>
 				<Link to="/user">
 					<MdPerson className="icon" />
@@ -45,8 +53,8 @@ export default function Home() {
 							placeholder="Nome da cidade..."
 							items={dataCities ? dataCities.map((city) => convertToMenuEntity(city, city.name)) : []}
 							loading={statusCities != "success"}
-							selected={city}
-							setSelected={setCity}
+							selected={selectedCity}
+							setSelected={setSelectedCity}
 							textInput
 							direction={isOpen ? "bottom" : "top"}
 						/>
