@@ -6,8 +6,9 @@ import { useFetchData } from "@/hooks/useFetchData";
 import DropdownOptions from "@/components/DropdownOptions";
 import { MenuEntity } from "@/components/DropdownOptions/types";
 
-import { CategoryCards, HomeContainer, MapContainer, MenuContainer, OpenCloseMenu } from "./styles";
+import { CategoryCards, HomeContainer, MenuContainer, OpenCloseMenu } from "./styles";
 import EventCard from "@/components/EventCard";
+import Map from "@/components/Map";
 
 export default function Home() {
 	const [isOpen, setIsOpen] = useState(false);
@@ -27,7 +28,7 @@ export default function Home() {
 
 	return (
 		<HomeContainer>
-			<MapContainer></MapContainer>
+			<Map />
 			<MenuContainer $isOpen={isOpen.toString()}>
 				<OpenCloseMenu $isOpen={isOpen.toString()} onClick={toggleOpen}>
 					<MdKeyboardArrowUp className="icon" />

@@ -5,6 +5,31 @@
 		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Brascomp</title>
+
+		<link
+			rel="stylesheet"
+			href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+			integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+			crossorigin="" />
+		<script
+			src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+			integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+			crossorigin=""></script>
+		<style>
+			.leaflet-container {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				z-index: 0;
+			}
+			.leaflet-div-icon {
+				background: none;
+				border: none;
+			}
+			.leaflet-pane .leaflet-marker-icon {
+				filter: drop-shadow(0px 10px 10px rgba(150, 150, 150, 0.5));
+			}
+		</style>
 	</head>
 	<body>
 		<div id="root"></div>
