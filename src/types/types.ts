@@ -31,6 +31,7 @@ export interface Achievment extends Entity {
 	description: string;
 	finishDate: string;
 	isComplete: boolean;
+	isConsumed: boolean;
 }
 
 export interface User {

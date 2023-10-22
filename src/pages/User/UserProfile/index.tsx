@@ -1,7 +1,9 @@
 import { useFetchData } from "@/hooks/useFetchData";
 import { Achievment } from "@/types/types";
 
-import { AchievmentCard, AchievmentsContainer, UserContainer } from "./styles";
+import { AchievmentCard, AchievmentsContainer, QrCode, UserContainer } from "./styles";
+import useLocalStorage from "@/hooks/useLocalStorage";
+import { formatDateToDDMMYYYY } from "@/utils/dates";
 
 interface UserProfileI {
 	token: string;
@@ -16,6 +18,8 @@ const generateHeaderUser = (userToken: string) => ({
 });
 
 export default function UserProfile(props: UserProfileI) {
+	const [auth] = useLocalStorage("auth", { token: null });
+
 	const { data: dataAchievments } = useFetchData<Achievment[]>(
 		`${import.meta.env.VITE_API_URL}/conquista/todos`,
 		generateHeaderUser(props.token)
@@ -27,6 +31,9 @@ export default function UserProfile(props: UserProfileI) {
 
 	console.log(dataUsername, dataAchievments);
 
+	const generateLink = (achievment: Achievment) =>
+		`${import.meta.env.VITE_API_URL}/conquista/consumir/${achievment.id}/?token=${auth.token}`;
+
 	return (
 		<UserContainer>
 			<div className="content">
@@ -35,8 +42,20 @@ export default function UserProfile(props: UserProfileI) {
 					<p className="title">Conquistas</p>
 					<AchievmentsContainer>
 						{dataAchievments?.map((achievment) => (
-							<AchievmentCard key={achievment.id} $isComplete={achievment.isComplete.toString()}>
-								{achievment.name}
+							<AchievmentCard
+								key={achievment.id}
+								$state={achievment.isConsumed ? "used" : achievment.isComplete ? "complete" : "enabled"}>
+								<p className="name">{achievment.name}</p>
+								<p className="description">{achievment.description}</p>
+								{achievment.isConsumed ||
+									(achievment.isComplete && (
+										<p className="finish">{formatDateToDDMMYYYY(new Date(achievment.finishDate))}</p>
+									))}
+								{achievment.isComplete && !achievment.isConsumed && (
+									<QrCode
+										src={`https://api.qrserver.com/v1/create-qr-code/?data=${generateLink(achievment)}&size=200x200}`}
+									/>
+								)}
 							</AchievmentCard>
 						))}
 					</AchievmentsContainer>

@@ -27,6 +27,7 @@ export const UserContainer = styled.div`
 	.title {
 		font-weight: bold;
 		font-size: 1.25rem;
+		margin-bottom: 1rem;
 	}
 `;
 
@@ -40,16 +41,31 @@ export const AchievmentsContainer = styled.div`
 `;
 
 interface AchievmentCardI {
-	$isComplete: string;
+	$state: string;
 }
 
 export const AchievmentCard = styled.div<AchievmentCardI>`
 	width: 100%;
 	padding: 1.25rem;
-	text-decoration: ${(props) => (props.$isComplete == "true" ? "line-through" : "none")};
-	background-color: ${(props) => props.theme.primary};
+	text-decoration: ${(props) => (props.$state == "used" ? "line-through" : "none")};
+	background-color: ${(props) => (props.$state == "complete" ? props.theme.highlight : props.theme.primary)};
 	color: ${(props) => props.theme.primaryText};
 	border-radius: 1rem;
-	opacity: ${(props) => (props.$isComplete == "true" ? "0.5" : "1")};
+	opacity: ${(props) => (props.$state == "used" ? "0.5" : "1")};
+
+	.name {
+		font-weight: bold;
+	}
+
+	.description {
+		font-size: 0.9rem;
+	}
+`;
+
+export const QrCode = styled.img`
+	width: 10rem;
+	aspect-ratio: 1;
+	margin-top: 1rem;
+	border: 10px solid ${(props) => props.theme.white};
 `;
 

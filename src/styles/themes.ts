@@ -14,10 +14,10 @@ export type ThemeType = {
 
 export const DefaultTheme: ThemeType = {
 	name: "default",
-	primary: "#089C54",
+	primary: "#1d5242",
 	primaryText: "#FFFFFF",
-	highlight: "#00DD44",
-	secondary: "#FEFEFE",
+	highlight: "#3fbe98",
+	secondary: "#bdec31",
 	background: "#EEEEEE",
 	background2: "#505050",
 	text: "#333333",
