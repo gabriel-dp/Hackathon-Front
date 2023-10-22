@@ -26,7 +26,7 @@ export default function Home() {
 
 	return (
 		<HomeContainer>
-			<Map />
+			<Map cities={dataCities??[]} spots={dataSpots??[]}/>
 			<MenuContainer $isOpen={isOpen.toString()}>
 				<OpenCloseMenu $isOpen={isOpen.toString()} onClick={toggleOpen}>
 					<MdKeyboardArrowUp className="icon" />

@@ -54,7 +54,7 @@ function ZoomProvider(props: ZoomProviderI) {
 
 interface MapI {
   cities : City[],
-  spots: Spot[]
+  spots : Spot[]
 }
 
 export default function Map(props : MapI) {
@@ -76,18 +76,18 @@ export default function Map(props : MapI) {
       />
       {
         zoomLevel < 13 ?
-        props.cities.map(city => (
+        props.cities?.map(city => (
           <Marker 
             key={city.id}
-            position={[-21.138599142642562, -44.26019280483018]}
+            position={[city.coords.lat, city.coords.lon]}
             icon = {icon["city"]}>
           <Popup>{city.name}</Popup>
           </Marker>
         )) : 
-        props.spots.map(spot => (
+        props.spots?.map(spot => (
           <Marker 
             key={spot.id}
-            position={[-21.138599142642562, -44.26019280483018]}
+            position={[spot.coords.lat, spot.coords.lon]}
             icon = {icon[spot.type as keyof ICON]}>
           <Popup>{spot.name}</Popup>
           </Marker>
