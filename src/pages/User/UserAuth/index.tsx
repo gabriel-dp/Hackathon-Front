@@ -39,7 +39,9 @@ export default function UserAuth(props: UserAuthI) {
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 
-		const url = isSignUp ? import.meta.env.VITE_AUTH_URL + "register" : import.meta.env.VITE_AUTH_URL + "login";
+		const url = isSignUp
+			? import.meta.env.VITE_API_URL + "/usuario/cadastro"
+			: import.meta.env.VITE_API_URL + "/usuario/autenticar";
 		fetch(
 			url,
 			isSignUp
@@ -67,7 +69,7 @@ export default function UserAuth(props: UserAuthI) {
 			<AuthContainers>
 				{isSignUp ? (
 					<Container>
-						<h2>Sign Up</h2>
+						<h2>Cadastro</h2>
 						<form onSubmit={handleSubmit}>
 							<Input
 								type="text"
@@ -89,7 +91,7 @@ export default function UserAuth(props: UserAuthI) {
 					</Container>
 				) : (
 					<Container>
-						<h2>Sign In</h2>
+						<h2>Login</h2>
 						<form onSubmit={handleSubmit}>
 							<Input
 								type="text"
@@ -105,7 +107,7 @@ export default function UserAuth(props: UserAuthI) {
 								value={formData.password}
 								onChange={handleChange}
 							/>
-							<Button type="submit">Login</Button>
+							<Button type="submit">Entrar</Button>
 						</form>
 					</Container>
 				)}

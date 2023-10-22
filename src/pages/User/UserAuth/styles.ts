@@ -42,5 +42,10 @@ export const Button = styled.button`
 	border: none;
 	border-radius: 5px;
 	cursor: pointer;
+	transition: all ease 0.25s;
+
+	&:hover {
+		background-color: ${(props) => props.theme.highlight};
+	}
 `;
 
