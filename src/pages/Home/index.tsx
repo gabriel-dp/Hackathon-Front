@@ -87,12 +87,12 @@ export default function Home() {
 			if (auth.token) {
 				dataSpots.forEach((spot) => {
 					if (isDistanceLowerThan(location, [spot.coords.lat, spot.coords.lon], 0.0025)) {
-						console.log(location, [spot.coords.lat, spot.coords.lon]);
 						fetch(`${import.meta.env.VITE_API_URL}/pontos/registrar/${spot.id}`, generateHeaderUser(auth.token))
 							.then((response) => {
 								if (!response.ok) {
 									throw new Error(`Request failed with status: ${response.status}`);
 								}
+								console.log(response.status, location, [spot.coords.lat, spot.coords.lon]);
 								if (response.status == 201) window.alert(`Parabéns por visitar ${spot.name}`);
 							})
 							.catch((error) => {

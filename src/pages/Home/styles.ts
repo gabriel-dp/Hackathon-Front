@@ -33,27 +33,27 @@ export const MenuContainer = styled.div<OpenCloseMenuI>`
 	bottom: 0;
 	left: 0;
 
-	.search-wrapper {
-		min-height: 2.5rem;
-		width: min(100%, 35rem);
-
-		.search {
-			border: none;
-		}
-	}
-
 	.content {
 		width: 100%;
 		height: 100%;
-		overflow-y: scroll;
 
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		gap: 2rem;
 
+		.search-wrapper {
+			min-height: 2.5rem;
+			width: min(100%, 35rem);
+
+			.search {
+				border: none;
+			}
+		}
+
 		.content-wrapper {
-			width: min(100%, 50rem);
+			overflow-y: scroll;
+			width: 100%;
 
 			display: flex;
 			flex-direction: column;
