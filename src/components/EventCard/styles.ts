@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const CardContainer = styled.div`
-	min-width: 17rem;
+	max-width: 17rem;
 	aspect-ratio: 1.25;
 	border-radius: 1rem;
 	overflow: hidden;

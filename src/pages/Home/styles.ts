@@ -91,5 +91,10 @@ export const CategoryCards = styled.div`
 		display: flex;
 		gap: 1rem;
 	}
+
+	.empty {
+		margin-top: 0.5rem;
+		font-size: 0.9rem;
+	}
 `;
 
