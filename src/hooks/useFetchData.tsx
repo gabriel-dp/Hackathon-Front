@@ -30,7 +30,7 @@ export function useFetchData<Data>(url: string, options?: object): FetchDataResp
 				setError(error.message);
 				setStatus("error");
 			});
-	}, [url, options]);
+	}, [url]);
 
 	return {
 		data,
