@@ -1,5 +1,7 @@
 import useLocalStorage from "@/hooks/useLocalStorage";
+
 import UserAuth from "./UserAuth";
+import UserProfile from "./UserProfile";
 
 export default function User() {
 	const [auth, setAuth] = useLocalStorage("auth", { token: null });
@@ -12,8 +14,8 @@ export default function User() {
 
 	if (auth.token == null) {
 		return <UserAuth handleChangeToken={handleChangeToken} />;
+	} else {
+		return <UserProfile token={auth.token} logout={logout} />;
 	}
-
-	return <div>aa</div>;
 }
 

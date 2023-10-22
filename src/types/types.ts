@@ -26,3 +26,15 @@ export interface Spot extends Entity {
 	type: string;
 }
 
+export interface Achievment extends Entity {
+	name: string;
+	description: string;
+	finishDate: string;
+	isComplete: boolean;
+}
+
+export interface User {
+	username: string;
+	achievments: Achievment[];
+}
+

@@ -10,7 +10,7 @@ const SIGNUP_HEADER = (usuario: string, email: string, senha: string) => ({
 });
 
 const SIGNIN_HEADER = (usuario: string, senha: string) => ({
-	method: "GET",
+	method: "POST",
 	headers: {
 		"Content-Type": "application/json",
 	},
@@ -38,8 +38,10 @@ export default function UserAuth(props: UserAuthI) {
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
+
+		const url = isSignUp ? import.meta.env.VITE_AUTH_URL : import.meta.env.VITE_AUTH_URL + "login";
 		fetch(
-			import.meta.env.VITE_AUTH_URL,
+			url,
 			isSignUp
 				? SIGNUP_HEADER(formData.username, formData.email, formData.password)
 				: SIGNIN_HEADER(formData.username, formData.password)
@@ -55,7 +57,7 @@ export default function UserAuth(props: UserAuthI) {
 				setStatus("success");
 			})
 			.catch((error) => {
-				setError(error.message);
+				console.log(error);
 				setStatus("error");
 			});
 	};
@@ -89,7 +91,13 @@ export default function UserAuth(props: UserAuthI) {
 					<Container>
 						<h2>Sign In</h2>
 						<form onSubmit={handleSubmit}>
-							<Input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} />
+							<Input
+								type="text"
+								name="username"
+								placeholder="Usuário"
+								value={formData.username}
+								onChange={handleChange}
+							/>
 							<Input
 								type="password"
 								name="password"
@@ -102,6 +110,7 @@ export default function UserAuth(props: UserAuthI) {
 					</Container>
 				)}
 			</AuthContainers>
+			{status == "error" && <p>Credenciais inválidas</p>}
 			<Button onClick={toggleSign}>{isSignUp ? "Já tenho uma conta" : "Não tenho uma conta"}</Button>
 		</UserAuthContainer>
 	);
