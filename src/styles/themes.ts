@@ -2,6 +2,7 @@ export type ThemeType = {
 	name: string;
 	primary: string;
 	primaryText: string;
+	highlight: string;
 	secondary: string;
 	background: string;
 	background2: string;
@@ -15,6 +16,7 @@ export const DefaultTheme: ThemeType = {
 	name: "default",
 	primary: "#089C54",
 	primaryText: "#FFFFFF",
+	highlight: "#00DD44",
 	secondary: "#FEFEFE",
 	background: "#EEEEEE",
 	background2: "#505050",

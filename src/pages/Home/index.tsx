@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { MdKeyboardArrowUp } from "react-icons/md";
+import { Link } from "react-router-dom";
+import { MdKeyboardArrowUp, MdPerson } from "react-icons/md";
 
 import { useFetchData } from "@/hooks/useFetchData";
 import { City, Event, Spot } from "@/types/types";
@@ -8,25 +9,32 @@ import DropdownOptions from "@/components/DropdownOptions";
 import TouristCard from "@/components/TouristCard";
 import Map from "@/components/Map";
 
-import { CategoryCards, HomeContainer, MenuContainer, OpenCloseMenu } from "./styles";
+import { CategoryCards, HomeContainer, MenuContainer, OpenCloseMenu, UserButton } from "./styles";
 
 export default function Home() {
 	const [isOpen, setIsOpen] = useState(false);
 	const [city, setCity] = useState<MenuEntity | null>(null);
 
 	const { data: dataCities, status: statusCities } = useFetchData<City[]>(
-		`${import.meta.env.VITE_API_URL}/cidades/nome`
+		`${import.meta.env.VITE_API_URL}/cidades/nome`,
+		{}
 	);
-	const { data: dataSpots, status: statusSpots } = useFetchData<Spot[]>(`${import.meta.env.VITE_API_URL}/pontos`);
+	const { data: dataSpots, status: statusSpots } = useFetchData<Spot[]>(`${import.meta.env.VITE_API_URL}/pontos`, {});
 	const { data: dataEvents, status: statusEvents } = useFetchData<Event[]>(
-		`${import.meta.env.VITE_API_URL}/eventos/${city ? `cidade/${city.id}` : ""}`
+		`${import.meta.env.VITE_API_URL}/eventos/${city ? `cidade/${city.id}` : ""}`,
+		{}
 	);
 
 	const toggleOpen = () => setIsOpen((isOpen) => !isOpen);
 
 	return (
 		<HomeContainer>
-			<Map cities={dataCities??[]} spots={dataSpots??[]}/>
+			<Map cities={dataCities ?? []} spots={dataSpots ?? []} />
+			<UserButton>
+				<Link to="/user">
+					<MdPerson className="icon" />
+				</Link>
+			</UserButton>
 			<MenuContainer $isOpen={isOpen.toString()}>
 				<OpenCloseMenu $isOpen={isOpen.toString()} onClick={toggleOpen}>
 					<MdKeyboardArrowUp className="icon" />
