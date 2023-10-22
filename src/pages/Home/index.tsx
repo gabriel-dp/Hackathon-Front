@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { MdKeyboardArrowUp } from "react-icons/md";
 
-import { Event, TouristSpot } from "@/types/types";
+import { Event, Spot } from "@/types/types";
 import { useFetchData } from "@/hooks/useFetchData";
 import DropdownOptions from "@/components/DropdownOptions";
 import { MenuEntity } from "@/components/DropdownOptions/types";
 
 import { CategoryCards, HomeContainer, MenuContainer, OpenCloseMenu } from "./styles";
-import EventCard from "@/components/EventCard";
+import EventCard from "@/components/TouristCard";
 import Map from "@/components/Map";
 
 export default function Home() {
@@ -17,9 +17,7 @@ export default function Home() {
 	const { data: dataCity, status: statusCity } = useFetchData<MenuEntity[]>(
 		`${import.meta.env.VITE_API_URL}/cidades/nome`
 	);
-	const { data: dataSpots, status: statusSpots } = useFetchData<TouristSpot[]>(
-		`${import.meta.env.VITE_API_URL}/pontos`
-	);
+	const { data: dataSpots, status: statusSpots } = useFetchData<Spot[]>(`${import.meta.env.VITE_API_URL}/pontos`);
 	const { data: dataEvents, status: statusEvents } = useFetchData<Event[]>(
 		`${import.meta.env.VITE_API_URL}/eventos/${city ? city.id : ""}`
 	);

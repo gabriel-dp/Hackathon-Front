@@ -18,7 +18,7 @@ export interface City extends Entity {
 	coords: Coords;
 }
 
-export interface TouristSpot extends Entity {
+export interface Spot extends Entity {
 	name: string;
 	coords: Coords;
 	imageUrl: string;
