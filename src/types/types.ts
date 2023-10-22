@@ -23,5 +23,6 @@ export interface Spot extends Entity {
 	coords: Coords;
 	imageUrl: string;
 	city: string;
+	type: string;
 }
 

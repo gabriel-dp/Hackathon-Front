@@ -5,10 +5,6 @@ export const HomeContainer = styled.div`
 	height: 100dvh;
 	display: flex;
 	flex-direction: column;
-
-	.content {
-		width: min(75rem, 100%);
-	}
 `;
 
 export const MapContainer = styled.div`
@@ -25,28 +21,44 @@ export const MenuContainer = styled.div<OpenCloseMenuI>`
 	width: 100%;
 	padding: 1rem;
 	padding-top: 1.5rem;
+	padding-bottom: 0;
 	background-color: ${(props) => props.theme.white};
 	border-top-right-radius: 2rem;
 	border-top-left-radius: 2rem;
 	filter: drop-shadow(0 0 1rem #00000055);
 	transition: top ease-in-out 0.5s;
 
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 2rem;
-
 	position: absolute;
 	top: ${(props) => (props.$isOpen == "true" ? "20%" : "calc(100% - 5rem)")};
 	bottom: 0;
 	left: 0;
 
-	.search-wrapper {
-		height: 2.5rem;
-		width: min(100%, 35rem);
+	.content {
+		width: 100%;
+		height: 100%;
+		overflow-y: scroll;
 
-		.search {
-			border: none;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 2rem;
+
+		.search-wrapper {
+			min-height: 2.5rem;
+			width: min(100%, 35rem);
+
+			.search {
+				border: none;
+			}
+		}
+
+		.content-wrapper {
+			width: min(100%, 50rem);
+
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 1rem;
 		}
 	}
 `;
@@ -74,7 +86,7 @@ export const OpenCloseMenu = styled.button<OpenCloseMenuI>`
 `;
 
 export const CategoryCards = styled.div`
-	width: min(100%, 50rem);
+	max-width: min(100%, 50rem);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
