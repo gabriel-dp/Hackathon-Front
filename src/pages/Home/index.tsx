@@ -65,6 +65,19 @@ export default function Home() {
 					<div className="content-wrapper">
 						{isOpen && (
 							<>
+								<CategoryCards className="tourist">
+									<p className="title">Pontos Turísticos</p>
+									{dataSpots != null && dataSpots.length > 0 ? (
+										<div className="carrousel">
+											{statusSpots != "loading" &&
+												dataSpots.map((spot) => (
+													<TouristCard key={spot.id} name={spot.name} city={spot.city} imageUrl={spot.imageUrl} />
+												))}
+										</div>
+									) : (
+										<p className="empty">Não há pontos turísticos registrados</p>
+									)}
+								</CategoryCards>
 								<CategoryCards className="events">
 									<p className="title">Eventos</p>
 									{dataEvents != null && dataEvents.length > 0 ? (
@@ -83,19 +96,6 @@ export default function Home() {
 										</div>
 									) : (
 										<p className="empty">Não há eventos agendados</p>
-									)}
-								</CategoryCards>
-								<CategoryCards className="tourist">
-									<p className="title">Pontos Turísticos</p>
-									{dataSpots != null && dataSpots.length > 0 ? (
-										<div className="carrousel">
-											{statusSpots != "loading" &&
-												dataSpots.map((spot) => (
-													<TouristCard key={spot.id} name={spot.name} city={spot.city} imageUrl={spot.imageUrl} />
-												))}
-										</div>
-									) : (
-										<p className="empty">Não há pontos turísticos registrados</p>
 									)}
 								</CategoryCards>
 							</>
