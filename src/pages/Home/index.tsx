@@ -9,12 +9,15 @@ import DropdownOptions from "@/components/DropdownOptions";
 import TouristCard from "@/components/TouristCard";
 import Map from "@/components/Map";
 
+import config from "@/data/config.json"
+
 import { CategoryCards, HomeContainer, MenuContainer, OpenCloseMenu, UserButton } from "./styles";
 
 export default function Home() {
 	const [isOpen, setIsOpen] = useState(false);
 	const [selectedCity, setSelectedCity] = useState<MenuEntity | null>(null);
-	const [center, setCenter] = useState<[number, number]>([-21.138599142642562, -44.26019280483018]);
+	const [center, setCenter] = useState<[number, number]>(config.defaultPosition as [number,number]);
+	const zoom = config.defaultZoom;
 
 	const { data: dataCities, status: statusCities } = useFetchData<City[]>(
 		`${import.meta.env.VITE_API_URL}/cidades/nome`
@@ -37,7 +40,7 @@ export default function Home() {
 
 	return (
 		<HomeContainer>
-			<Map center={center} cities={dataCities ?? []} spots={dataSpots ?? []} />
+			<Map center={center} zoom={zoom} cities={dataCities ?? []} spots={dataSpots ?? []} />
 			<UserButton>
 				<Link to="/user">
 					<MdPerson className="icon" />

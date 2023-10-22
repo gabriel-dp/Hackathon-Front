@@ -5,10 +5,11 @@ import L from "leaflet";
 import { useMapEvents } from "react-leaflet";
 
 import { City, Spot } from "@/types/types";
-
+import config from "@/data/config.json"
 import churchIcon from "@/assets/icon/church.svg";
 import treeIcon from "@/assets/icon/tree.svg";
 import foodIcon from "@/assets/icon/food.svg";
+import cityIcon from "@/assets/icon/city.svg";
 
 interface ICON {
 	church: L.Icon;
@@ -34,7 +35,7 @@ const icon: ICON = {
 		className: "leaflet-div-icon",
 	}),
 	city: new L.Icon({
-		iconUrl: foodIcon,
+		iconUrl: cityIcon,
 		iconSize: new L.Point(80, 80),
 		className: "leaflet-div-icon",
 	}),
@@ -53,46 +54,60 @@ function ZoomProvider(props: ZoomProviderI) {
 	return null;
 }
 
-interface SetCenter {
+interface SetCenterI {
 	center: [number, number];
 }
 
-function SetCenter(props: SetCenter) {
+function SetCenter(props: SetCenterI) {
 	const map = useMap();
 	useEffect(() => {
-		map.setView(props.center, 13);
+		map.setView(props.center, config.cityZoom + 1);
 	}, [props.center, map]);
+	return null;
+}
+
+interface SetZoomI {
+	zoom: number;
+}
+
+function SetZoom(props: SetZoomI) {
+	const map = useMap();
+	useEffect(() => {
+		map.setZoom(props.zoom);
+	}, [props.zoom, map]);
 	return null;
 }
 
 interface MapI {
 	center: [number, number];
+  zoom: number;
 	cities: City[];
 	spots: Spot[];
 }
 
 export default function Map(props: MapI) {
-	const [zoomLevel, setZoomLevel] = useState(18);
+	const [zoomLevel, setZoomLevel] = useState(props.zoom);
 
 	return (
-		<MapContainer center={props.center} zoom={18}>
+		<MapContainer center={props.center} zoom={props.zoom}>
 			<SetCenter center={props.center} />
-			<ZoomProvider setZoomLevel={setZoomLevel} />
+      <SetZoom zoom={props.zoom} />
+			<ZoomProvider setZoomLevel={setZoomLevel}/>
 			<TileLayer
 				attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 				url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 			/>
-			{zoomLevel < 13
+			{zoomLevel < config.cityZoom
 				? props.cities.map((city) => (
-						<Marker key={city.id} position={[city.coords.lat, city.coords.lon]} icon={icon["city"]}>
-							<Popup>{city.name}</Popup>
-						</Marker>
-				  ))
+					<Marker key={city.id} position={[city.coords.lat, city.coords.lon]} icon={icon["city"]}>
+						<Popup>{city.name}</Popup>
+					</Marker>
+				))
 				: props.spots.map((spot) => (
-						<Marker key={spot.id} position={[spot.coords.lat, spot.coords.lon]} icon={icon["church"]}>
-							<Popup>{spot.name}</Popup>
-						</Marker>
-				  ))}
+					<Marker key={spot.id} position={[spot.coords.lat, spot.coords.lon]} icon={icon["church"]}>
+						<Popup>{spot.name}</Popup>
+					</Marker>
+        ))}
 		</MapContainer>
 	);
 }
